@@ -1,19 +1,4 @@
-# platform-engineer
-
-
-ROOT:
-added Gemfile
-added Jenkinsfile
-updated main.tf
-updated variables.tf
-added outputs.tf 
-added scrits folder - update changelog 
-added env folder - tst/bld/prd
-added codeowners file
-added changelog.md
-
-
-Modules/windows_platform_app:
+# platform-engineer assessment 
 
 ***Important Note:***
 ***Due to limited access to the Azure platform, this implementation is based on theoretical knowledge and what I would put into practice. While some details may not reflect my exact implementation approach, the overall strategy remains consistent with my planned solutions. Further explanation will be provided within this readme and when I speak about it.***
@@ -55,9 +40,17 @@ By specifying the Ruby version and sourcing the necessary gem in my confg file, 
 I have added an env folder with empty TST, BLD, and PRD subfolders as placeholders. Ideally, this repository should serve as a Terraform module to define the config, while a separate repository should handle the deployment of the Windows platform app. However, for the purpose of this assessment, these subfolders demonstrate that individual config can be added for each respective environment, facilitating specific deployments.
 
 
+## Jenkinsfile:
+The purpose of the Jenkinsfile is to define a pipeline that automates the build, test, and deployment processes for my project. It ensures consistency and reliability by specifying stages for tasks such as installing dependencies, running tests, and deploying applications. This automation streamlines workflows, reduces manual intervention, and enhances the overall efficiency of the development lifecycle.
+
+***note: to configure Jenkins, I would deploy 2 AKS clusters and install Jenkins using a Kubernetes manifest file. These clusters will be strategically located in different regions to ensure high availability and redundancy. In the event of a regional failure, Jenkins will automatically failover to the other region, ensuring continuous operation with no downtime.***
+
+***Ideally, there would be a project resources repo dedicated to creating resources, such as clusters, where I would maintain my Terraform config (terraform.tfvars) and Helm charts (charts.yaml).***
+
+
 ### modules:
 The modules folder contains reusable, self-contained Terraform configs. Each module within this folder is designed to manage specific infrastructure components or services. By organising your Terraform code into modules this promotes modularity and maintainability, allowing for easier management, updates, and reuse across different projects or envs. This structure also enhances the scalability and consistency of IaC practices.
 
 Within the modules folder, I have created a functions folder dedicated to the creation of new functions. Inside it, there is a test folder that currently contains a simple unit test. This folder is intended to also accommodate integration tests for subsequent functions. Thoroughly testing these functions before deployment is crucial to ensure their functionality and prevent the deployment of faulty function apps.
 
-***note: Ideally, these tests should be integrated into the Jenkins pipeline or a Jenkins shared library. This approach would enhance the clarity and readability of the code, ensuring a streamlined and efficient testing process.***
+***note: Ideally, these tests should be written in a Jenkins shared library (seperate repo) and said sharedlib called in the Jenkinsfile. This approach would enhance the clarity and readability of the code, ensuring a streamlined and efficient testing process. ****
