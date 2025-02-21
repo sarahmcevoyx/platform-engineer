@@ -35,4 +35,14 @@ resource "azurerm_windows_function_app" "new" {
   identity {
     type = var.identity_type
   }
+
+  auth_settings {
+    enabled             = var.auth_enabled
+    default_provider    = var.auth_default_provider
+    active_directory {
+      client_id         = var.auth_client_id
+      issuer            = var.auth_issuer
+      allowed_audiences = var.auth_allowed_audiences
+  }
+  }
 }

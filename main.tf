@@ -41,13 +41,21 @@ resource "azurerm_key_vault" "functions_kv" {
   access_policy {
     tenant_id                   = data.azurerm_client_config.current.tenant_id
     object_id                   = data.azurerm_client_config.current.object_id
-    secret_permissions          = var.key_vault_secret_permissions
+    key_permissions             = var.key_permissions
   }
   network_acls {
     default_action              = var.network_acls_default_action
     bypass                      = var.network_acls_bypass
     virtual_network_subnet_ids  = [azurerm_subnet.subnet.id]
   }
+}
+
+resource "azurerm_key_vault_key" "example_key" {
+  name         = var.key_name
+  key_vault_id = var.key_vault_id
+  key_type     = var.key_type
+  key_size     = var.key_size
+  key_opts     = var.key_opts
 }
 
 # Defines an Azure Log Analytics Workspace
@@ -119,6 +127,19 @@ module "function_app" {
   app_config_id             = azurerm_app_configuration.functions_appcfg.id
   tenant_id                 = data.azurerm_client_config.current.tenant_id
   key_vault_id              = azurerm_key_vault.functions_kv.id
-  ap_sku_name               = var.func_ap_sku_name
+  ap_sku_name               = var.ap_sku_name
   tags                      = var.tags
+  virtual_network_subnet_id = azurerm_subnet.subnet.id
+  ip_restriction_name       = var.ip_restriction_name
+  ip_restriction_address    = var.ip_restriction_address
+  ip_restriction_action     = var.ip_restriction_action
+  auth_enabled              = var.auth_enabled
+  auth_default_provider     = var.auth_default_provider
+  auth_client_id            = var.auth_client_id
+  auth_issuer               = var.auth_issuer
+  auth_allowed_audiences    = var.auth_allowed_audiences
+  key_name                  = var.key_name
+  key_type                  = var.key_type
+  key_size                  = var.key_size
+  key_opts                  = var.key_opts
 }
