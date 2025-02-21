@@ -40,13 +40,14 @@ I have integrated a script into the Jenkins pipeline to automate updates to the 
 
 ***note: other scripts can be added here, such as a hook.py/hook.tf.*** 
 
-***hook.tf - defines how to use the hook.py script to manage and execute plugins***
+***hook.tf - defines how to use the hook.py script to manage and execute plugin.s***
 
 ***hook.py - script that handles the loading and execution of specific methods from plugins stored in a Git repo. Ensures only one instance of the script runs atr a time to avoid conflicts.***
 
 
 Gemfile:
 By specifying the Ruby version and sourcing the necessary gem in my confg file, along with automating the installation of Bundler and the project's dependencies in my Jenkinsfile, I enable the pipeline to run kitchen-terraform. 
+
 ***note: nexus is my choice of repo manager as that is what I currently use.***
 
 
@@ -58,4 +59,5 @@ I have added an env folder with empty TST, BLD, and PRD subfolders as placeholde
 The modules folder contains reusable, self-contained Terraform configs. Each module within this folder is designed to manage specific infrastructure components or services. By organising your Terraform code into modules this promotes modularity and maintainability, allowing for easier management, updates, and reuse across different projects or envs. This structure also enhances the scalability and consistency of IaC practices.
 
 Within the modules folder, I have created a functions folder dedicated to the creation of new functions. Inside it, there is a test folder that currently contains a simple unit test. This folder is intended to also accommodate integration tests for subsequent functions. Thoroughly testing these functions before deployment is crucial to ensure their functionality and prevent the deployment of faulty function apps.
+
 ***note: Ideally, these tests should be integrated into the Jenkins pipeline or a Jenkins shared library. This approach would enhance the clarity and readability of the code, ensuring a streamlined and efficient testing process.***
