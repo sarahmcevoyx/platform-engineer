@@ -4,4 +4,6 @@
 # Each file of this repo requires a review and approval of <respective_team> for every change
 
 
-# *     @respective_team
+# *                 @respective_team
+# Jenkinsfile       @respective_team, @authorised_team
+# modules/          @respective_team, @authorised_team
