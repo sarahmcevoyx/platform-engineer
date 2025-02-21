@@ -81,6 +81,11 @@ output "key_vault_tenant_ids" {
   value       = { for k, v in azurerm_key_vault_access_policy.function : k => v.tenant_id }
 }
 
+output "key_vault_key_name" {
+  description = "The name of the Key Vault key"
+  value       = azurerm_key_vault_key.example_key.name
+}
+
 
 # STORAGE 
 output "storage_account_ids" {

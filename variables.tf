@@ -64,10 +64,22 @@ variable "enable_purge_protection" {
   default     = true
 }
 
-variable "key_vault_secret_permissions" {
-  description = "The secret permissions for the Key Vault access policy"
+variable "key_type" {
+  description = "The type of the Key Vault key"
+  type        = string
+  default     = "RSA"
+}
+
+variable "key_size" {
+  description = "The size of the Key Vault key"
+  type        = number
+  default     = 2048
+}
+
+variable "key_permissions" {
+  description = "The operations allowed by the Key Vault key"
   type        = list(string)
-  default     = ["Get", "List"]  # Least privilege principle
+  default     = ["decrypt", "encrypt", "sign", "verify", "wrapKey", "unwrapKey"]
 }
 
 variable "network_acls_default_action" {
@@ -222,7 +234,7 @@ variable "key_vault_id" {
   default     = ""
 }
 
-variable "func_ap_sku_name" {
+variable "ap_sku_name" {
   description = "The SKU of the function app"
   type        = string
   default     = "Consumption"
@@ -236,4 +248,50 @@ variable "tags" {
     owner       = "DevOps"
     cost_centre = "53426"
   }
+}
+
+variable "ip_restriction_name" {
+  description = "Name for IP restriction"
+  type        = string
+  default     = "AllowVNet"
+}
+
+variable "ip_restriction_address" {
+  description = "IP address for IP restriction"
+  type        = string
+  default     = "VirtualNetwork"
+}
+
+variable "ip_restriction_action" {
+  description = "Action for IP restriction"
+  type        = string
+  default     = "Allow"
+}
+
+variable "auth_enabled" {
+  description = "Enable or disable authentication"
+  type        = bool
+  default     = true
+}
+
+variable "auth_default_provider" {
+  description = "Default authentication provider"
+  type        = string
+  default     = "AzureActiveDirectory"
+}
+
+variable "auth_client_id" {
+  description = "The client ID for Azure AD authentication"
+  type        = string
+}
+
+variable "auth_issuer" {
+  description = "The issuer URL for Azure AD authentication"
+  type        = string
+}
+
+variable "auth_allowed_audiences" {
+  description = "List of allowed audiences for Azure AD authentication"
+  type        = list(string)
+  default     = []
 }

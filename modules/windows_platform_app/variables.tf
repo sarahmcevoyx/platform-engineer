@@ -88,7 +88,7 @@ variable "minimum_instances" {
 variable "maximum_instances" {
   description = "Maximum number of instances"
   type        = number
-  default     = 10
+  default     = 5
 }
 
 variable "website_run_from_package" {
@@ -101,6 +101,52 @@ variable "identity_type" {
   description = "Type of identity"
   type        = string
   default     = "SystemAssigned"
+}
+
+variable "auth_enabled" {
+  description = "Enable or disable authentication"
+  type        = bool
+  default     = true
+}
+
+variable "auth_default_provider" {
+  description = "Default authentication provider"
+  type        = string
+  default     = "AzureActiveDirectory"
+}
+
+variable "auth_client_id" {
+  description = "The client ID for Azure AD authentication"
+  type        = string
+}
+
+variable "auth_issuer" {
+  description = "The issuer URL for Azure AD authentication"
+  type        = string
+}
+
+variable "auth_allowed_audiences" {
+  description = "List of allowed audiences for Azure AD authentication"
+  type        = list(string)
+  default     = []
+}
+
+variable "ip_restriction_name" {
+  description = "Name for IP restriction"
+  type        = string
+  default     = "AllowVNet"
+}
+
+variable "ip_restriction_address" {
+  description = "IP address for IP restriction"
+  type        = string
+  default     = "VirtualNetwork"
+}
+
+variable "ip_restriction_action" {
+  description = "Action for IP restriction"
+  type        = string
+  default     = "Allow"
 }
 
 
@@ -159,6 +205,23 @@ variable "container_delete_retention_days" {
   default     = 5
 }
 
+variable "default_action" {
+  description = "Default action for network rules"
+  type        = string
+  default     = "Deny"
+}
+
+variable "virtual_network_subnet_ids" {
+  description = "List of virtual network subnet IDs for network rules"
+  type        = list(string)
+}
+
+variable "bypass" {
+  description = "Services that can bypass the network rules"
+  type        = list(string)
+  default     = ["AzureServices"]
+}
+
 
 # SERVICE_PLAN 
 variable "service_plan_name_prefix" {
@@ -184,12 +247,23 @@ variable "ignore_changes" {
   type        = list(string)
 }
 
+variable "service_plan_tier" {
+  description = "The tier of the service plan"
+  type        = string
+  default     = "Dynamic"
+}
+
+variable "service_plan_sku_name" {
+  description = "The SKU of the service plan"
+  type        = string
+  default     = "Y1"
+}
 
 # RBAC
-variable "secret_permissions" {
-  description = "List of secret permissions for the Key Vault access policy"
+variable "key_permissions" {
+  description = "The key permissions for the Key Vault access policy"
   type        = list(string)
-  default     = ["Get", "List"]  # Least privilege principle  
+  default     = ["get", "create", "decrypt", "encrypt", "unwrapKey", "wrapKey", "verify", "sign"]
 }
 
 variable "app_config_id" {
@@ -205,4 +279,10 @@ variable "tenant_id" {
 variable "key_vault_id" {
   description = "The ID of the Key Vault"
   type        = string
+}
+
+variable "key_permissions" {
+  description = "The operations allowed by the Key Vault key"
+  type        = list(string)
+  default     = ["decrypt", "encrypt", "sign", "verify", "wrapKey", "unwrapKey"]
 }
