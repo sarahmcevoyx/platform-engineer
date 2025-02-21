@@ -43,6 +43,13 @@ resource "azurerm_windows_function_app" "new" {
       client_id         = var.auth_client_id
       issuer            = var.auth_issuer
       allowed_audiences = var.auth_allowed_audiences
+    }
   }
+
+  virtual_network_subnet_id = var.virtual_network_subnet_id
+  ip_restrictions {
+    name       = var.ip_restriction_name
+    ip_address = var.ip_restriction_address
+    action     = var.ip_restriction_action
   }
 }
