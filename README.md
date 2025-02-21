@@ -37,8 +37,11 @@ An output.tf file is essential for providing visibility into the values of creat
 
 ### scripts:
 I have integrated a script into the Jenkins pipeline to automate updates to the CHANGELOG.md file. This ensures that the changelog remains accurate and up-to-date.
+
 ***note: other scripts can be added here, such as a hook.py/hook.tf.*** 
+
 ***hook.tf - defines how to use the hook.py script to manage and execute plugins***
+
 ***hook.py - script that handles the loading and execution of specific methods from plugins stored in a Git repo. Ensures only one instance of the script runs atr a time to avoid conflicts.***
 
 
