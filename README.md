@@ -4,20 +4,25 @@
 ***Due to limited access to the Azure platform, this implementation is based on theoretical knowledge and what I would put into practice. While some details may not reflect my exact implementation approach, the overall strategy remains consistent with my planned solutions. Further explanation will be provided within this readme and when I speak about it.***
 
 
+
 ### CODEOWNERS:
 I have included a github folder containing the CODEOWNERS file. This file defines specific read and write privileges for designated teams. To safeguard the code from unauthorised changes, teams without the necessity for editing will have their write permissions restricted. Additionally, more sensitive files, such as the Jenkinsfile and those within the modules folder, will require a higher level of approval (@authorised_team)
+
 
 
 ### CHANGELOG.md
 A CHANGELOG.md file is crucial for maintaining transparency, as it provides a clear record of all changes made to the project. It facilitates effective communication among team members and users by documenting new features, bug fixes, and updates. Additionally, it supports version control and accountability, ensuring that modifications are easily traceable and manageable.
 
 
+
 ### versions.tf:
 Having the versions.tf file in both my root directory and modules directory ensures that the entire config, including all modules, uses consistent versions of Terraform and its providers. Specifying versions helps avoid unexpected changes due to provider updates, ensuring that infrastructure remains stable, predictable and maintable. 
 
 
+
 ### outputs.tf:
 An output.tf file is essential for providing visibility into the values of created resources, facilitating the integration and automation of infrastructure. Including this file in both the root directory and modules ensures modularity and centralisation, enabling seamless information sharing and management across the entire Terraform config.
+
 
 
 ### scripts:
@@ -30,22 +35,26 @@ I have integrated a script into the Jenkins pipeline to automate updates to the 
 ***hook.py - script that handles the loading and execution of specific methods from plugins stored in a Git repo. Ensures only one instance of the script runs atr a time to avoid conflicts.***
 
 
+
 Gemfile:
 By specifying the Ruby version and sourcing the necessary gem in my confg file, along with automating the installation of Bundler and the project's dependencies in my Jenkinsfile, I enable the pipeline to run kitchen-terraform. 
 
 ***note: nexus is my choice of repo manager as that is what I currently use.***
 
 
+
 ### env:
 I have added an env folder with empty TST, BLD, and PRD subfolders as placeholders. Ideally, this repository should serve as a Terraform module to define the config, while a separate repository should handle the deployment of the Windows platform app. However, for the purpose of this assessment, these subfolders demonstrate that individual config can be added for each respective environment, facilitating specific deployments.
 
 
-## Jenkinsfile:
+
+### Jenkinsfile:
 The purpose of the Jenkinsfile is to define a pipeline that automates the build, test, and deployment processes for my project. It ensures consistency and reliability by specifying stages for tasks such as installing dependencies, running tests, and deploying applications. This automation streamlines workflows, reduces manual intervention, and enhances the overall efficiency of the development lifecycle.
 
 ***note: to configure Jenkins, I would deploy 2 AKS clusters and install Jenkins using a Kubernetes manifest file. These clusters will be strategically located in different regions to ensure high availability and redundancy. In the event of a regional failure, Jenkins will automatically failover to the other region, ensuring continuous operation with no downtime.***
 
 ***Ideally, there would be a project resources repo dedicated to creating resources, such as clusters, where I would maintain my Terraform config (terraform.tfvars) and Helm charts (charts.yaml).***
+
 
 
 ### modules:
