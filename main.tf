@@ -41,6 +41,7 @@ resource "azurerm_key_vault" "functions_kv" {
   access_policy {
     tenant_id                   = data.azurerm_client_config.current.tenant_id
     object_id                   = data.azurerm_client_config.current.object_id
+    secret_permissions          = var.secret_permissions
     key_permissions             = var.key_permissions
   }
   network_acls {
@@ -50,6 +51,7 @@ resource "azurerm_key_vault" "functions_kv" {
   }
 }
 
+# Setting up a cryptographic key within an Azure Key Vault
 resource "azurerm_key_vault_key" "example_key" {
   name         = var.key_name
   key_vault_id = var.key_vault_id
@@ -117,6 +119,7 @@ resource "azurerm_app_configuration" "functions_appcfg" {
 }
 
 
+# Instantiate the windows_function_app module with specific, customisable config parameters
 module "function_app" {
   source                    = "../../windows_function_app"
   function_app_name_prefix  = var.function_app_name_prefix

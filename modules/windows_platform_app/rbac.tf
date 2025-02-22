@@ -10,7 +10,8 @@ resource "azurerm_key_vault_access_policy" "function" {
   key_vault_id          = var.key_vault_id
   tenant_id             = var.tenant_id
   object_id             = azurerm_windows_function_app.new[each.key].identity[0].principal_id
-  key_permissions       = var.key_permissions 
+  secret_permissions    = each.value.use_secrets ? ["get", "list"] : []
+  key_permissions       = each.value.use_keys ? ["get", "decrypt"] : [] 
 }
 
 resource "azurerm_role_assignment" "key_vault_crypto_user" {

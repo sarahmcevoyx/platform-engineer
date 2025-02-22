@@ -79,8 +79,14 @@ variable "key_size" {
 variable "key_permissions" {
   description = "The operations allowed by the Key Vault key"
   type        = list(string)
-  default     = ["decrypt", "encrypt", "sign", "verify", "wrapKey", "unwrapKey"]
+  default     = ["get", "decrypt"]
 }
+
+variable "secret_permissions" {
+  description = "The secret permissions for the Key Vault access policy"
+  type        = list(string)
+  default     = ["get", "list"]
+}  
 
 variable "network_acls_default_action" {
   description = "The default action for network ACLs"
