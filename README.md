@@ -132,14 +132,33 @@ Defines a list of virtual network subnet IDs that are allowed to access the stor
 
 ## Future Enhancements:
 
-• Enhance monitoring by integrating with Azure Monitor, Application Insights, and other monitoring tools to gain deeper insights into the health and performance of your resources - especially that of FA deployed
+• Enhance monitoring by integrating with Azure Monitor, Application Insights, and other monitoring tools to gain deeper insights into the health and performance of my resources - especially that of the FAs
 
-• Create more detailed custom alerts for my infrastructure and FAs
+• Create more detailed custom alerts for my resources
 
 • Enable Key Vault Firewall to only let access from designated IP addresses, or virtual networks, to ensure vault is only accessible from reliable sources
 
-• Add a "backend "azurerm" {}", enable versioning for remote state storage to keep track of changes and allow for rollbacks if needed. Implement state locking to prevent concurrent updates to the state file, ensuring data integrity. Ensure that data stored in backend storage is encrypted at rest to protect sensitive information. Use SSL/TLS to encrypt data in transit between Terraform and the remote backend storage. Set automated backups for state files to prevent data loss and ensure recovery incase of accidental deletion or corruption. Define retention policies for backups to manage storage costs and compliance requirements.
+• Add a "backend "azurerm" {}", to enable versioning for remote state storage to keep track of changes and allow for rollbacks if needed. Implement state locking to prevent concurrent updates to the state file, ensuring data integrity. Ensure that data stored in backend storage is encrypted at rest to protect sensitive information. Use SSL/TLS to encrypt data in transit between Terraform and the remote backend storage. Set automated backups for state files to prevent data loss and ensure recovery incase of accidental deletion or corruption. Define retention policies for backups to manage storage costs and compliance requirements
 
-• Breakdown Terraform config into smaller, reusable modules to improve readability and maintainability, e.g., modules/key_vault. 
+• Breakdown Terraform config into smaller, reusable modules to improve readability and maintainability, e.g., modules/key_vault
+
+• Create Jenkins shared libraries in separate repos to enhance readability and maintain clear, organised code 
+
+• Add extensive integration and unit tests to my FA
+
+• Improve and restructure the key/secret permissions and access
+
+• Implementing automated secret rotation and audit access to secrets regularly
+
+• Integrate Azure cost management and billing tools to monitor and optimise costs associated with my resources 
+
+• Implement consistent resource tagging to track and manage resources effectively (tried to show in tags with cmdb_appid), aiding in cost analysis and management
+
+• Use Azure Policy to enforce compliance and governance policies, ensuring that all resources adhere to organisational standards (tried to show with inspec check stage in Jenkinsfile, as that is what I currently do now)
+
+• Implement autoscaling for FA and other resources to handle varying workloads efficiently
+
+
+
 
 ***p.s apologies in advance for all of this you had to read - I hope you had a coffee and a snack with you***
