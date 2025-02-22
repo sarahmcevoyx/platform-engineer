@@ -1,12 +1,12 @@
 # platform-engineer assessment 
 
 ***Important Note:***
-***Due to limited access to the Azure platform, this implementation is based on theoretical knowledge and what I would put into practice. While some details may not reflect my exact implementation approach, the overall strategy remains consistent with my planned solutions. Further explanation will be provided within this readme and when I speak about it.***
+***due to limited access to the Azure platform, this implementation is based on theoretical knowledge and what I would put into practice. While some details may not reflect my exact implementation approach, the overall strategy remains consistent with my planned solutions. Further explanation will be provided within this readme and when I speak about it.***
 
 
 
 ### CODEOWNERS:
-I have included a github folder containing the CODEOWNERS file. This file defines specific read and write privileges for designated teams. To safeguard the code from unauthorised changes, teams without the necessity for editing will have their write permissions restricted. Additionally, more sensitive files, such as the Jenkinsfile and those within the modules folder, will require a higher level of approval (@authorised_team)
+I have included a GitHub folder containing the CODEOWNERS file. This file defines specific read and write privileges for designated teams. To safeguard the code from unauthorised changes, teams without the necessity for editing will have their write permissions restricted. Additionally, more sensitive files, such as the Jenkinsfile and those within the modules folder, will require a higher level of approval (@authorised_team)..
 
 
 
@@ -16,12 +16,12 @@ A CHANGELOG.md file is crucial for maintaining transparency, as it provides a cl
 
 
 ### versions.tf:
-Having the versions.tf file in both my root directory and modules directory ensures that the entire config, including all modules, uses consistent versions of Terraform and its providers. Specifying versions helps avoid unexpected changes due to provider updates, ensuring that infrastructure remains stable, predictable and maintable. 
+Having the versions.tf file in both my root directory and modules directory ensures that the entire config, including all modules, uses consistent versions of Terraform and its providers. Specifying versions helps avoid unexpected changes due to provider updates, ensuring that infrastructure remains stable, predictable, and maintainable.
 
 
 
 ### outputs.tf:
-An output.tf file is essential for providing visibility into the values of created resources, facilitating the integration and automation of infrastructure. Including this file in both the root directory and modules ensures modularity and centralisation, enabling seamless information sharing and management across the entire Terraform config.
+An outputs.tf file is essential for providing visibility into the values of created resources, facilitating the integration and automation of infrastructure. Including this file in both the root directory and modules ensures modularity and centralisation, enabling seamless information sharing and management across the entire Terraform config.
 
 
 
@@ -36,15 +36,15 @@ I have integrated a script into the Jenkins pipeline to automate updates to the 
 
 
 
-Gemfile:
-By specifying the Ruby version and sourcing the necessary gem in my confg file, along with automating the installation of Bundler and the project's dependencies in my Jenkinsfile, I enable the pipeline to run kitchen-terraform. 
+### Gemfile:
+By specifying the Ruby version and sourcing the necessary gem in my config file, along with automating the installation of Bundler and the project's dependencies in my Jenkinsfile, I enable the pipeline to run kitchen-terraform.
 
 ***note: nexus is my choice of repo manager as that is what I currently use.***
 
 
 
 ### env:
-I have added an env folder with empty TST, BLD, and PRD subfolders as placeholders. Ideally, this repository should serve as a Terraform module to define the config, while a separate repository should handle the deployment of the Windows platform app. However, for the purpose of this assessment, these subfolders demonstrate that individual config can be added for each respective environment, facilitating specific deployments.
+I have added an env folder with empty TST, BLD, and PRD subfolders as placeholders. Ideally, this repo should serve as a Terraform module to define the config, while a separate repo should handle the deployment of the Windows platform app. However, for the purpose of this assessment, these subfolders demonstrate that individual config can be added for each respective environment, facilitating specific deployments.
 
 
 
@@ -57,8 +57,29 @@ The purpose of the Jenkinsfile is to define a pipeline that automates the build,
 
 
 
+### root main.tf:
+vnet / subnet - sets up a secure and isolated network environment in Azure by defining a VNet and a subnet within it. This setup allows for efficient network segmentation and control, facilitating secure communication between resources within the VNet and enabling integration with Azure services through service endpoints.
+
+functions_kv - config ensures that the Key Vault is securely deployed and managed, with strict access controls and network rules in place to protect sensitive cryptographic keys and secrets. Configures network access control lists to enhance the security of the Key Vault by restricting access based on network rules.
+
+***I acknowledge that the implementation in Azure differs to GCP, and given the limited time I've spent working on this, I understand that my current config might not be entirely structurally correct (definitely isn't). However, my primary objective is to allow each FA to utilise either keys or secrets based on its specific requirements. This repo is intended to serve as a Terraform module for multiple FAs, each with unique use cases and permission needs. By opting for both keys and secrets, I can ensure that the appropriate permissions are granted according to the specific needs of each FA, thus achieving flexibility and secure access management.***
+
+example_key - by setting up this cryptographic key within an Azure Key Vault, it ensure that sensitive cryptographic operations are performed securely and efficiently, set to least priviledged principle
+
+
+***note: ideally, a separate repo should be maintained for creating and managing keys. This specific config would then be responsible for referencing and defining the specific key to be used.***
+
+
+azurerm_log_analytics_workspace - by configuring an Azure Log Analytics Workspace, I can effectively monitor and analyse the health and performance of my Azure infrastructure, ensuring efficient operations and preventive management.
+
+azurerm_monitor_diagnostic_setting - by configuring diagnostic settings, it ensures that Azure Key Vault's operational and security data is systematically collected, monitored, and retained, enabling proactive management and compliance.
+
+azurerm_monitor_metric_alert - by configuring a metric alert, it ensures that I am promptly notified of any significant changes in the health and performance of Azure Key Vault, allowing for effective management and resolution of potential issues.
+
+
+
 ### modules:
-The modules folder contains reusable, self-contained Terraform configs. Each module within this folder is designed to manage specific infrastructure components or services. By organising your Terraform code into modules this promotes modularity and maintainability, allowing for easier management, updates, and reuse across different projects or envs. This structure also enhances the scalability and consistency of IaC practices.
+The modules folder contains reusable, self-contained Terraform configs. Each module within this folder is designed to manage specific infrastructure components or services. By organising Terraform code into modules, this promotes modularity and maintainability, allowing for easier management, updates, and reuse across different projects or environments. This structure also enhances the scalability and consistency of IaC practices.
 
 Within the modules folder, I have created a functions folder dedicated to the creation of new functions. Inside it, there is a test folder that currently contains a simple unit test. This folder is intended to also accommodate integration tests for subsequent functions. Thoroughly testing these functions before deployment is crucial to ensure their functionality and prevent the deployment of faulty FAs.
 
@@ -67,7 +88,6 @@ Within the modules folder, I have created a functions folder dedicated to the cr
 
 
 #### main.tf:
-
 always_on: keeps the FA (Function App) always on - this is crucial for scenarios where you want to avoid the cold start latency that can occur when a FA is idle and needs to be restarted upon receiving a new request. Keeping the FA always running ensures faster response times and improved performance. However this setting can be changed to ***false*** to reduce running costs.
 
 
@@ -90,6 +110,8 @@ This configuration ensures that the FA is properly set up with security, scaling
 #### rbac.tf:
 These configs ensure that only FAs with specific requirements (e.g., access to App Configuration or Key Vault) are granted the necessary permissions. This approach enhances security by following the principle of least privilege, and it automates the role assignments and access policies based on the configuration settings.
 
+***note: again, I am aware this isn't probably structually correct. However, my primary goal is to convey that depending on the needs of the FA, permissions for secret or key access will be granted accordingly. This approach follows the principle of least privilege, ensuring that only the necessary permissions are provided based on the specific requirements of each FA.***
+
 
 
 #### service_plan.tf:
@@ -105,3 +127,7 @@ The network_rules block in my azurerm_storage_account resource is added to enhan
 Specifies the default action to take when no specific network rule matches the request (deny).
 
 Defines a list of virtual network subnet IDs that are allowed to access the storage account. This restricts access to the storage account to only those resources within the specified virtual network subnets, enhancing security by ensuring that only trusted network segments can interact with the storage account. This restricts access to the storage account to specific virtual network subnets and trusted services, reducing the risk of unauthorised access.
+
+
+
+***p.s apologies in advance for all of this you had to read - I hope you had a coffee and a snack with you :) ***
