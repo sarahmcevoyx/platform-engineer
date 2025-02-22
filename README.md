@@ -60,7 +60,7 @@ The purpose of the Jenkinsfile is to define a pipeline that automates the build,
 ### modules:
 The modules folder contains reusable, self-contained Terraform configs. Each module within this folder is designed to manage specific infrastructure components or services. By organising your Terraform code into modules this promotes modularity and maintainability, allowing for easier management, updates, and reuse across different projects or envs. This structure also enhances the scalability and consistency of IaC practices.
 
-Within the modules folder, I have created a functions folder dedicated to the creation of new functions. Inside it, there is a test folder that currently contains a simple unit test. This folder is intended to also accommodate integration tests for subsequent functions. Thoroughly testing these functions before deployment is crucial to ensure their functionality and prevent the deployment of faulty function apps.
+Within the modules folder, I have created a functions folder dedicated to the creation of new functions. Inside it, there is a test folder that currently contains a simple unit test. This folder is intended to also accommodate integration tests for subsequent functions. Thoroughly testing these functions before deployment is crucial to ensure their functionality and prevent the deployment of faulty FAs.
 
 ***note: Ideally, these tests should be written in a Jenkins shared library (seperate repo) and said sharedlib called in the Jenkinsfile. This approach would enhance the clarity and readability of the code, ensuring a streamlined and efficient testing process. ***
 
@@ -68,19 +68,40 @@ Within the modules folder, I have created a functions folder dedicated to the cr
 
 #### main.tf:
 
-always_on: Keeps the Function App always on - this is crucial for scenarios where you want to avoid the cold start latency that can occur when a function app is idle and needs to be restarted upon receiving a new request. Keeping the function app always running ensures faster response times and improved performance. However this setting can be changed to ***false*** to reduce running costs.
+always_on: keeps the FA (Function App) always on - this is crucial for scenarios where you want to avoid the cold start latency that can occur when a FA is idle and needs to be restarted upon receiving a new request. Keeping the FA always running ensures faster response times and improved performance. However this setting can be changed to ***false*** to reduce running costs.
 
 
-minimum_instances & maximum_instances: Sets the minimum and maximum instances for scaling. By setting these parameters, you can customize the scaling behavior to meet specific performance needs. Additionally, establishing a maximum limit prevents excessive scaling, thereby controlling resource consumption and optimising costs.
+minimum_instances & maximum_instances: Sets the minimum and maximum instances for scaling. By setting these parameters, you can customise the scaling behavior to meet specific performance needs. Additionally, establishing a maximum limit prevents excessive scaling, thereby controlling resource consumption and optimising costs.
 
 
-auth_settings: Manages authentication settings, including Azure Active Directory configuration.
+auth_settings: Manages authentication settings, including AAD config. This config ensures secure access control by integrating with AAD.
 
 
-virtual_network_subnet_id: Links the function app to a specific virtual network subnet. This allows the function app to securely communicate with resources within the same virtual network, such as databases or other services, without exposing traffic to the public internet. It enhances security by ensuring that data stays within the private network and helps maintain compliance with internal policies and regulations regarding network security.
+virtual_network_subnet_id: Links the FA to a specific virtual network subnet. This allows the FA to securely communicate with resources within the same virtual network, such as databases or other services, without exposing traffic to the public internet. It enhances security by ensuring that data stays within the private network and helps maintain compliance with internal policies and regulations regarding network security.
 
 
-ip_restrictions: Sets IP restrictions for accessing the function App. This feature enhances security by ensuring that only authorised IP addresses can access the function app, thereby preventing unauthorised access.
+ip_restrictions: Sets IP restrictions for accessing the FA. This feature enhances security by ensuring that only authorised IP addresses can access the FA, thereby preventing unauthorised access.
 
 
-This configuration ensures that the Function App is properly set up with security, scaling, and network settings, allowing it to run efficiently and securely in the Azure environment.
+This configuration ensures that the FA is properly set up with security, scaling, and network settings, allowing it to run efficiently and securely in the Azure environment.
+
+
+
+#### rbac.tf:
+These configs ensure that only FAs with specific requirements (e.g., access to App Configuration or Key Vault) are granted the necessary permissions. This approach enhances security by following the principle of least privilege, and it automates the role assignments and access policies based on the configuration settings.
+
+
+
+#### service_plan.tf:
+ignore_changes - prevents unnecessary updates or conflicts that might arise from changes made outside of Terraform, thus maintaining a consistent and stable infrastructure state as managed by Terraform.
+    
+tier / size - these changes allow you to customise the service plan based on performance and cost requirements, ensuring that the FAs have the appropriate resources to operate efficiently and are cost effective.
+
+
+
+#### storage.tf 
+The network_rules block in my azurerm_storage_account resource is added to enhance the security and accessibility of the storage account by defining network access rules.
+
+Specifies the default action to take when no specific network rule matches the request (deny).
+
+Defines a list of virtual network subnet IDs that are allowed to access the storage account. This restricts access to the storage account to only those resources within the specified virtual network subnets, enhancing security by ensuring that only trusted network segments can interact with the storage account. This restricts access to the storage account to specific virtual network subnets and trusted services, reducing the risk of unauthorised access.

@@ -9,6 +9,8 @@ variable "function_configs" {
     use_dotnet_isolated_runtime = bool
     use_app_config              = bool
     use_key_vault               = bool
+    use_secrets                 = bool
+    use_keys                    = bool
     scaling_settings            = map(string)
   }))
   default = {}
@@ -260,12 +262,6 @@ variable "service_plan_sku_name" {
 }
 
 # RBAC
-variable "key_permissions" {
-  description = "The key permissions for the Key Vault access policy"
-  type        = list(string)
-  default     = ["get", "create", "decrypt", "encrypt", "unwrapKey", "wrapKey", "verify", "sign"]
-}
-
 variable "app_config_id" {
   description = "The ID of the App Configuration"
   type        = string
