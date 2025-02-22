@@ -130,4 +130,16 @@ Defines a list of virtual network subnet IDs that are allowed to access the stor
 
 
 
+## Future Enhancements:
+
+• Enhance monitoring by integrating with Azure Monitor, Application Insights, and other monitoring tools to gain deeper insights into the health and performance of your resources - especially that of FA deployed
+
+• Create more detailed custom alerts for my infrastructure and FAs
+
+• Enable Key Vault Firewall to only let access from designated IP addresses, or virtual networks, to ensure vault is only accessible from reliable sources
+
+• Add a "backend "azurerm" {}", enable versioning for remote state storage to keep track of changes and allow for rollbacks if needed. Implement state locking to prevent concurrent updates to the state file, ensuring data integrity. Ensure that data stored in backend storage is encrypted at rest to protect sensitive information. Use SSL/TLS to encrypt data in transit between Terraform and the remote backend storage. Set automated backups for state files to prevent data loss and ensure recovery incase of accidental deletion or corruption. Define retention policies for backups to manage storage costs and compliance requirements.
+
+• Breakdown Terraform config into smaller, reusable modules to improve readability and maintainability, e.g., modules/key_vault. 
+
 ***p.s apologies in advance for all of this you had to read - I hope you had a coffee and a snack with you***
