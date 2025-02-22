@@ -83,7 +83,7 @@ The modules folder contains reusable, self-contained Terraform configs. Each mod
 
 Within the modules folder, I have created a functions folder dedicated to the creation of new functions. Inside it, there is a test folder that currently contains a simple unit test. This folder is intended to also accommodate integration tests for subsequent functions. Thoroughly testing these functions before deployment is crucial to ensure their functionality and prevent the deployment of faulty FAs.
 
-***note: Ideally, these tests should be written in a Jenkins shared library (seperate repo) and said sharedlib called in the Jenkinsfile. This approach would enhance the clarity and readability of the code, ensuring a streamlined and efficient testing process. ***
+***note: Ideally, these tests should be written in a Jenkins shared library (seperate repo) and said sharedlib called in the Jenkinsfile. This approach would enhance the clarity and readability of the code, ensuring a streamlined and efficient testing process.***
 
 
 
@@ -130,4 +130,4 @@ Defines a list of virtual network subnet IDs that are allowed to access the stor
 
 
 
-***p.s apologies in advance for all of this you had to read - I hope you had a coffee and a snack with you :) ***
+***p.s apologies in advance for all of this you had to read - I hope you had a coffee and a snack with you***
