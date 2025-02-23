@@ -1,7 +1,7 @@
 # platform-engineer assessment 
 
 ***Important Note:***
-***due to limited access to the Azure platform, this implementation is based on theoretical knowledge and what I would put into practice. While some details may not reflect my exact implementation approach, the overall strategy remains consistent with my planned solutions. Further explanation will be provided within this readme and when I speak about it.***
+***due to not being able to gain access to the Azure platform, this implementation is based on theoretical knowledge and what I would put into practice. While some details may not reflect my exact implementation approach, the overall strategy remains consistent with my planned solutions. Further explanation will be provided within this readme and when I speak about it.***
 
 
 
@@ -142,9 +142,11 @@ Defines a list of virtual network subnet IDs that are allowed to access the stor
 
 • Breakdown Terraform config into smaller, reusable modules to improve readability and maintainability, e.g., modules/key_vault
 
-• Create Jenkins shared libraries in separate repos to enhance readability and maintain clear, organised code 
+• Create Jenkins shared libraries in separate repos to enhance readability and maintain clear, organised code - these will then be referenced in the Jenkinsfile
 
 • Add extensive integration and unit tests to my FA
+
+• Enhance the functionality of my FA
 
 • Improve and restructure the key/secret permissions and access
 
