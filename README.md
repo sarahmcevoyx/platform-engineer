@@ -62,7 +62,7 @@ vnet / subnet - sets up a secure and isolated network environment in Azure by de
 
 functions_kv - config ensures that the Key Vault is securely deployed and managed, with strict access controls and network rules in place to protect sensitive cryptographic keys and secrets. Configures network access control lists to enhance the security of the Key Vault by restricting access based on network rules.
 
-***I acknowledge that the implementation in Azure differs to GCP, and given the limited time I've spent working on this, I understand that my current config might not be entirely structurally correct (definitely isn't). However, my primary objective is to allow each FA to utilise either keys or secrets based on its specific requirements. This repo is intended to serve as a Terraform module for multiple FAs, each with unique use cases and permission needs. By opting for both keys and secrets, I can ensure that the appropriate permissions are granted according to the specific needs of each FA, thus achieving flexibility and secure access management.***
+***I acknowledge that the implementation in Azure differs to GCP, however my primary objective is to allow each FA to utilise either keys or secrets based on its specific requirements. This repo is intended to serve as a Terraform module for multiple FAs, each with unique use cases and permission needs. By opting for both keys and secrets, I can ensure that the appropriate permissions are granted according to the specific needs of each FA, thus achieving flexibility and secure access management.***
 
 example_key - by setting up this cryptographic key within an Azure Key Vault, it ensure that sensitive cryptographic operations are performed securely and efficiently, set to least priviledged principle
 
@@ -132,15 +132,13 @@ Defines a list of virtual network subnet IDs that are allowed to access the stor
 
 ## Future Enhancements:
 
-• Enhance monitoring by integrating with Azure Monitor, Application Insights, and other monitoring tools to gain deeper insights into the health and performance of my resources - especially that of the FAs
-
-• Create more detailed custom alerts for my resources
+• Create custom alerts and metrics for my resources, ensuring optimal performance and early detection of issues through detailed thresholds and conditions. Ideally there would be a dedicated repo specifically for the monitoring and alerting of resources, housing all terraform config for custom alerts and metrics. This would make use of Azure monitor, application insights, log analytics (etc). Additionally, I would integrate Dynatrace or a comparable monitoring solution to track and alert on the performance of my FAs, enabling real-time monitoring based on SLAs/SLOs. This integration will ensure that performance metrics are continuously met, allowing for robust and efficient monitoring, proactive issue detection, and maintaining high performance standards across FAs
 
 • Enable Key Vault Firewall to only let access from designated IP addresses, or virtual networks, to ensure vault is only accessible from reliable sources
 
 • Add a "backend "azurerm" {}", to enable versioning for remote state storage to keep track of changes and allow for rollbacks if needed. Implement state locking to prevent concurrent updates to the state file, ensuring data integrity. Ensure that data stored in backend storage is encrypted at rest to protect sensitive information. Use SSL/TLS to encrypt data in transit between Terraform and the remote backend storage. Set automated backups for state files to prevent data loss and ensure recovery incase of accidental deletion or corruption. Define retention policies for backups to manage storage costs and compliance requirements
 
-• Breakdown Terraform config into smaller, reusable modules to improve readability and maintainability, e.g., modules/key_vault
+• Breakdown Terraform config into smaller, reusable modules to improve readability and maintainability, e.g., modules/networking
 
 • Create Jenkins shared libraries in separate repos to enhance readability and maintain clear, organised code - these will then be referenced in the Jenkinsfile
 
@@ -160,7 +158,8 @@ Defines a list of virtual network subnet IDs that are allowed to access the stor
 
 • Implement autoscaling for FA and other resources to handle varying workloads efficiently
 
+• If I had a consistent basline of my FAs useage (e.g., compute usage), I could effectively leverage an Azure savings plan for my FAs. This would enable significant cost savings by committing to a fixed hourly spend, optimising resource allocation, and ensuring efficient budget management
 
 
 
-***p.s apologies in advance for all of this you had to read - I hope you had a coffee and a snack with you***
+***Thank you for taking your time to read this - I hope you had a coffee and a snack with you***
