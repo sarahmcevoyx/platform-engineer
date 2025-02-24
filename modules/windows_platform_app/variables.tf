@@ -245,8 +245,9 @@ variable "ap_sku_name" {
 }
 
 variable "ignore_changes" {
-  description = "Attributes to ignore changes on"
+  description = "List of attributes to ignore changes on"
   type        = list(string)
+  default     = []
 }
 
 variable "service_plan_tier" {

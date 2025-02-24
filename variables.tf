@@ -86,7 +86,7 @@ variable "secret_permissions" {
   description = "The secret permissions for the Key Vault access policy"
   type        = list(string)
   default     = ["get", "list"]
-}  
+}
 
 variable "network_acls_default_action" {
   description = "The default action for network ACLs"
@@ -249,7 +249,7 @@ variable "ap_sku_name" {
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)
-  default     = {
+  default = {
     environment = "test"
     owner       = "DevOps"
     cost_centre = "53426"

@@ -4,9 +4,13 @@ resource "azurerm_service_plan" "func_service_plan" {
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   os_type             = var.os_type
+
   lifecycle {
-    ignore_changes    = var.ignore_changes
+    ignore_changes = [
+      name
+    ]
   }
+
   sku {
     tier = var.service_plan_tier
     size = var.service_plan_sku_name
