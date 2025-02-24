@@ -1,9 +1,3 @@
-# Output the resource group name
-output "resource_group_name" {
-  description = "The name of the resource group"
-  value       = azurerm_resource_group.functions_rg.name
-}
-
 # Output the resource group location
 output "resource_group_name" {
   description = "The name of the resource group location"
