@@ -51,9 +51,3 @@ output "app_config_endpoint" {
   description = "The endpoint URI of the App Configuration"
   value       = azurerm_app_configuration.functions_appcfg.endpoint
 }
-
-# Output the App Configuration primary readonly connection string
-output "app_config_connection_string" {
-  description = "The primary readonly connection string for the App Configuration"
-  value       = azurerm_app_configuration.functions_appcfg.primary_readonly_connection_string
-}

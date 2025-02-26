@@ -52,16 +52,20 @@ variable "key_vault_sku" {
   default     = "standard"
 }
 
-variable "enable_soft_delete" {
-  description = "Enable soft delete for the Key Vault"
-  type        = bool
-  default     = true
-}
-
 variable "enable_purge_protection" {
   description = "Enable purge protection for the Key Vault"
   type        = bool
   default     = true
+}
+
+variable "key_name" {
+  description = "Name of the key to be created in Azure Key Vault"
+  type        = string
+}
+
+variable "key_opts" {
+  description = "List of key options for the Azure Key Vault key"
+  type        = list(string)
 }
 
 variable "key_type" {
@@ -229,6 +233,10 @@ variable "function_configs" {
     https_only                  = bool
     dotnet_version              = string
     use_dotnet_isolated_runtime = bool
+    use_app_config              = bool
+    use_key_vault               = bool
+    use_secrets                 = bool
+    use_keys                    = bool
     scaling_settings            = map(string)
   }))
   default = {}
@@ -254,6 +262,11 @@ variable "tags" {
     owner       = "DevOps"
     cost_centre = "53426"
   }
+}
+
+variable "user_assigned_identity_id" {
+  description = "User-assigned identity IDs"
+  type        = set(string)
 }
 
 variable "ip_restriction_name" {
@@ -300,4 +313,9 @@ variable "auth_allowed_audiences" {
   description = "List of allowed audiences for Azure AD authentication"
   type        = list(string)
   default     = []
+}
+
+variable "key_vault_reference_identity_id" {
+  description = "The ID of the managed identity for key vault reference"
+  type        = string
 }
