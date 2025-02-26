@@ -71,17 +71,17 @@ resource "azurerm_monitor_diagnostic_setting" "kv_diagnostics" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.example.id
   log {
     category = var.log_category
-    enabled  = true
+    enabled  = var.log_enabled
     retention_policy {
-      enabled = true
+      enabled = var.retention_policy_enabled_log
       days    = var.log_retention_days
     }
   }
   metric {
     category = var.metric_category
-    enabled  = true
+    enabled  = var.metric_enabled
     retention_policy {
-      enabled = true
+      enabled = var.retention_policy_enabled_metric
       days    = var.log_retention_days
     }
   }
