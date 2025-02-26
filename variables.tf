@@ -66,6 +66,7 @@ variable "key_name" {
 variable "key_opts" {
   description = "List of key options for the Azure Key Vault key"
   type        = list(string)
+  default     = ["decrypt"]
 }
 
 variable "key_type" {
@@ -140,16 +141,39 @@ variable "log_category" {
   default     = "AuditEvent"
 }
 
+variable "log_enabled" {
+  description = "Enable or disable logging"
+  type        = bool
+  default     = true
+}
+
+variable "retention_policy_enabled_log" {
+  description = "Enable or disable log retention policy"
+  type        = bool
+}
+
 variable "metric_category" {
   description = "The metric category for diagnostics"
   type        = string
   default     = "AllMetrics"
 }
 
+variable "metric_enabled" {
+  description = "Enable or disable metrics"
+  type        = bool
+  default     = true
+}
+
+variable "retention_policy_enabled_metric" {
+  description = "Enable or disable metric retention policy"
+  type        = bool
+  default     = true
+}
+
 variable "log_retention_days" {
   description = "The retention period for logs"
   type        = number
-  default     = 30
+  default     = 7
 }
 
 variable "kv_alert_name" {
