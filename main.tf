@@ -31,7 +31,6 @@ resource "azurerm_key_vault" "functions_kv" {
   location                 = var.resource_group_location
   sku_name                 = var.key_vault_sku
   tenant_id                = data.azurerm_client_config.current.tenant_id
-  soft_delete_enabled      = var.enable_soft_delete
   purge_protection_enabled = var.enable_purge_protection
   access_policy {
     tenant_id          = data.azurerm_client_config.current.tenant_id
@@ -90,13 +89,13 @@ resource "azurerm_monitor_diagnostic_setting" "kv_diagnostics" {
 
 # Sets up a metric alert for the Azure Key Vault
 resource "azurerm_monitor_metric_alert" "kv_alert" {
-  name                 = var.kv_alert_name
-  resource_group_name  = var.resource_group_name
-  scopes               = [azurerm_key_vault.functions_kv.id]
-  description          = var.kv_alert_description
-  severity             = var.kv_alert_severity
-  window_size          = var.kv_alert_window_size
-  evaluation_frequency = var.kv_alert_evaluation_frequency
+  name                = var.kv_alert_name
+  resource_group_name = var.resource_group_name
+  scopes              = [azurerm_key_vault.functions_kv.id]
+  description         = var.kv_alert_description
+  severity            = var.kv_alert_severity
+  window_size         = var.kv_alert_window_size
+  # evaluation_frequency = var.kv_alert_evaluation_frequency
   criteria {
     metric_namespace = var.kv_alert_metric_namespace
     metric_name      = var.kv_alert_metric_name
@@ -116,28 +115,31 @@ resource "azurerm_app_configuration" "functions_appcfg" {
 
 # Instantiate the windows_function_app module with specific, customisable config parameters
 module "function_app" {
-  source                    = "./modules/windows_platform_app"
-  function_app_name_prefix  = var.function_app_name_prefix
-  function_configs          = var.function_configs
-  resource_group_name       = azurerm_resource_group.functions_rg.name
-  resource_group_location   = azurerm_resource_group.functions_rg.location
-  app_config_uri            = azurerm_app_configuration.functions_appcfg.endpoint
-  app_config_id             = azurerm_app_configuration.functions_appcfg.id
-  tenant_id                 = data.azurerm_client_config.current.tenant_id
-  key_vault_id              = azurerm_key_vault.functions_kv.id
-  ap_sku_name               = var.ap_sku_name
-  tags                      = var.tags
-  virtual_network_subnet_id = azurerm_subnet.subnet.id
-  ip_restriction_name       = var.ip_restriction_name
-  ip_restriction_address    = var.ip_restriction_address
-  ip_restriction_action     = var.ip_restriction_action
-  auth_enabled              = var.auth_enabled
-  auth_default_provider     = var.auth_default_provider
-  auth_client_id            = var.auth_client_id
-  auth_issuer               = var.auth_issuer
-  auth_allowed_audiences    = var.auth_allowed_audiences
-  key_name                  = var.key_name
-  key_type                  = var.key_type
-  key_size                  = var.key_size
-  key_opts                  = var.key_opts
+  source                          = "./modules/windows_platform_app"
+  function_app_name_prefix        = var.function_app_name_prefix
+  function_configs                = var.function_configs
+  resource_group_name             = azurerm_resource_group.functions_rg.name
+  resource_group_location         = azurerm_resource_group.functions_rg.location
+  app_config_uri                  = azurerm_app_configuration.functions_appcfg.endpoint
+  app_config_id                   = azurerm_app_configuration.functions_appcfg.id
+  tenant_id                       = data.azurerm_client_config.current.tenant_id
+  key_vault_id                    = azurerm_key_vault.functions_kv.id
+  ap_sku_name                     = var.ap_sku_name
+  tags                            = var.tags
+  virtual_network_subnet_ids      = azurerm_subnet.subnet.id
+  virtual_network_subnet_id       = azurerm_subnet.subnet.id
+  ip_restriction_name             = var.ip_restriction_name
+  ip_restriction_address          = var.ip_restriction_address
+  ip_restriction_action           = var.ip_restriction_action
+  auth_enabled                    = var.auth_enabled
+  auth_default_provider           = var.auth_default_provider
+  auth_client_id                  = var.auth_client_id
+  auth_issuer                     = var.auth_issuer
+  auth_allowed_audiences          = var.auth_allowed_audiences
+  key_name                        = var.key_name
+  key_type                        = var.key_type
+  key_size                        = var.key_size
+  key_opts                        = var.key_opts
+  user_assigned_identity_id       = var.user_assigned_identity_id
+  key_vault_reference_identity_id = var.key_vault_reference_identity_id
 }
