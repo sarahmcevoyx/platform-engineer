@@ -14,6 +14,12 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    key_vault {
+      purge_soft_deleted_keys_on_destroy = true
+      recover_soft_deleted_keys          = true
+    }
+  }
   storage_use_azuread = true
+
 }

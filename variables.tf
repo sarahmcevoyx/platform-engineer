@@ -58,6 +58,13 @@ variable "enable_purge_protection" {
   default     = true
 }
 
+variable "disk_encryption" {
+  description = "Enable or disable disk encryption"
+  type        = bool
+  default     = true
+}
+
+
 variable "key_name" {
   description = "Name of the key to be created in Azure Key Vault"
   type        = string
@@ -66,7 +73,37 @@ variable "key_name" {
 variable "key_opts" {
   description = "List of key options for the Azure Key Vault key"
   type        = list(string)
-  default     = ["decrypt"]
+  default     = ["decrypt", "encrypt", "sign", "unwrapKey", "verify", "wrapKey"]
+}
+
+variable "key_rotation_policy" {
+  description = "Time before the key expires to automatically rotate it"
+  type        = string
+  default     = "P30D"
+}
+
+variable "key_expire_after" {
+  description = "Duration after which the key will expire"
+  type        = string
+  default     = "P90D"
+}
+
+variable "key_notify_before_expiry" {
+  description = "Time before the key expiry to notify"
+  type        = string
+  default     = "P15D"
+}
+
+variable "time_after_creation" {
+  description = "Rotate automatically at a duration after creation (ISO 8601 duration)"
+  type        = string
+  default     = "P15D"
+}
+
+variable "time_before_expiry" {
+  description = "Rotate automatically at a duration before expiry (ISO 8601 duration)"
+  type        = string
+  default     = "P15D"
 }
 
 variable "key_type" {
@@ -84,13 +121,13 @@ variable "key_size" {
 variable "key_permissions" {
   description = "The operations allowed by the Key Vault key"
   type        = list(string)
-  default     = ["get", "decrypt"]
+  default     = ["Create", "Delete", "Get", "Purge", "Recover", "Update", "GetRotationPolicy", "SetRotationPolicy"]
 }
 
 variable "secret_permissions" {
   description = "The secret permissions for the Key Vault access policy"
   type        = list(string)
-  default     = ["get", "list"]
+  default     = ["Set"]
 }
 
 variable "network_acls_default_action" {
@@ -270,6 +307,12 @@ variable "key_vault_id" {
   description = "The ID of the Key Vault"
   type        = string
   default     = ""
+}
+
+variable "soft_delete_retention_days" {
+  description = "Number of days to retain soft-deleted items"
+  type        = number
+  default     = 7
 }
 
 variable "ap_sku_name" {
