@@ -35,10 +35,10 @@ resource "azurerm_key_vault" "functions_kv" {
   purge_protection_enabled    = var.enable_purge_protection
   enabled_for_disk_encryption = var.disk_encryption
   access_policy {
-    tenant_id                 = data.azurerm_client_config.current.tenant_id
-    object_id                 = data.azurerm_client_config.current.object_id
-    secret_permissions        = var.secret_permissions
-    key_permissions           = var.key_permissions
+    tenant_id          = data.azurerm_client_config.current.tenant_id
+    object_id          = data.azurerm_client_config.current.object_id
+    secret_permissions = var.secret_permissions
+    key_permissions    = var.key_permissions
   }
   network_acls {
     default_action             = var.network_acls_default_action
@@ -49,18 +49,18 @@ resource "azurerm_key_vault" "functions_kv" {
 
 # Setting up a cryptographic key within an Azure Key Vault
 resource "azurerm_key_vault_key" "example_key" {
-  name                    = var.key_name
-  key_vault_id            = var.key_vault_id
-  key_type                = var.key_type
-  key_size                = var.key_size
-  key_opts                = var.key_opts
+  name         = var.key_name
+  key_vault_id = azurerm_key_vault.functions_kv.id
+  key_type     = var.key_type
+  key_size     = var.key_size
+  key_opts     = var.key_opts
   rotation_policy {
     automatic {
       time_before_expiry  = var.key_rotation_policy
       time_after_creation = var.time_after_creation
     }
-    expire_after          = var.key_expire_after
-    notify_before_expiry  = var.key_notify_before_expiry
+    expire_after         = var.key_expire_after
+    notify_before_expiry = var.key_notify_before_expiry
   }
 }
 
@@ -102,16 +102,16 @@ resource "azurerm_monitor_metric_alert" "kv_alert" {
   name                = var.kv_alert_name
   resource_group_name = var.resource_group_name
   scopes              = [azurerm_key_vault.functions_kv.id]
+  depends_on          = [azurerm_key_vault.functions_kv]
   description         = var.kv_alert_description
   severity            = var.kv_alert_severity
   window_size         = var.kv_alert_window_size
-  # evaluation_frequency = var.kv_alert_evaluation_frequency
   criteria {
-    metric_namespace  = var.kv_alert_metric_namespace
-    metric_name       = var.kv_alert_metric_name
-    aggregation       = var.kv_alert_aggregation
-    operator          = var.kv_alert_operator
-    threshold         = var.kv_alert_threshold
+    metric_namespace = var.kv_alert_metric_namespace
+    metric_name      = var.kv_alert_metric_name
+    aggregation      = var.kv_alert_aggregation
+    operator         = var.kv_alert_operator
+    threshold        = var.kv_alert_threshold
   }
 }
 
@@ -136,7 +136,6 @@ module "function_app" {
   key_vault_id                    = azurerm_key_vault.functions_kv.id
   ap_sku_name                     = var.ap_sku_name
   tags                            = var.tags
-  virtual_network_subnet_ids      = azurerm_subnet.subnet.id
   virtual_network_subnet_id       = azurerm_subnet.subnet.id
   ip_restriction_name             = var.ip_restriction_name
   ip_restriction_address          = var.ip_restriction_address

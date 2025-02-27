@@ -303,11 +303,11 @@ variable "function_configs" {
   default = {}
 }
 
-variable "key_vault_id" {
-  description = "The ID of the Key Vault"
-  type        = string
-  default     = ""
-}
+# variable "key_vault_id" {
+#   description = "The ID of the Key Vault"
+#   type        = string
+#   default     = ""
+# }
 
 variable "soft_delete_retention_days" {
   description = "Number of days to retain soft-deleted items"
