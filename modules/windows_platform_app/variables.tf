@@ -510,11 +510,6 @@ variable "storage_retention_policy_days" {
   default     = 7
 }
 
-variable "virtual_network_subnet_ids" {
-  description = "List of Virtual Network Subnet IDs"
-  type        = list(string)
-}
-
 
 # SERVICE_PLAN 
 variable "service_plan_name_prefix" {
