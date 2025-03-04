@@ -120,46 +120,10 @@ variable "java_version" {
   default     = "11"
 }
 
-variable "java_container" {
-  description = "Specifies the Java container to use."
-  type        = string
-  default     = "JAVA"
-}
-
-variable "java_container_version" {
-  description = "Specifies the Java container version to use."
-  type        = string
-  default     = "11.0.2"
-}
-
 variable "node_version" {
   description = "Specifies the Node.js version to use for the function app."
   type        = string
   default     = "14"
-}
-
-variable "php_version" {
-  description = "Specifies the PHP version to use for the function app."
-  type        = string
-  default     = "8.0"
-}
-
-variable "python_version" {
-  description = "Specifies the Python version to use for the function app."
-  type        = string
-  default     = "3.9"
-}
-
-variable "ruby_version" {
-  description = "Specifies the Ruby version to use for the function app."
-  type        = string
-  default     = "2.7"
-}
-
-variable "stack" {
-  description = "Specifies the application stack to use."
-  type        = string
-  default     = "node"
 }
 
 variable "disk_quota_mb" {
