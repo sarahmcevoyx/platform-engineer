@@ -142,7 +142,7 @@ module "function_app" {
   ip_restriction_action           = var.ip_restriction_action
   auth_enabled                    = var.auth_enabled
   auth_default_provider           = var.auth_default_provider
-  auth_client_id                  = var.auth_client_id
+  auth_client_id                  = data.azurerm_client_config.current.client_id
   auth_issuer                     = var.auth_issuer
   auth_allowed_audiences          = var.auth_allowed_audiences
   key_name                        = var.key_name
